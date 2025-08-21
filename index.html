@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala + | Transforme sua loja em uma máquina de vendas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animações de scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .slide-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .slide-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease-out;
+        }
+        
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .stagger-delay-1 { transition-delay: 0.1s; }
+        .stagger-delay-2 { transition-delay: 0.2s; }
+        .stagger-delay-3 { transition-delay: 0.3s; }
+        .stagger-delay-4 { transition-delay: 0.4s; }
+        .stagger-delay-5 { transition-delay: 0.5s; }
+        .stagger-delay-6 { transition-delay: 0.6s; }
+        
+        /* Animações de botões */
+        .btn-hover {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        
+        .btn-hover:hover {
+            transform: scale(1.05);
+        }
+
+        /* Chat flutuante */
+        .chat-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* FAQ */
+        .faq-item {
+            transition: all 0.3s ease;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-content.open {
+            max-height: 200px;
+        }
+
+        /* Timeline */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+        }
+
+        /* Calculadora */
+        .calculator-result {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Chat Flutuante -->
+    <div class="chat-float">
+        <button onclick="openWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.525 3.488"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="flex items-center">
+                        <svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="120" height="40" rx="8" fill="#1e293b"/>
+                            <text x="15" y="26" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="white">Escala</text>
+                            <circle cx="95" cy="20" r="12" fill="#3b82f6"/>
+                            <text x="90" y="26" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="white">+</text>
+                        </svg>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#solucoes" class="text-gray-700 hover:text-blue-600 font-medium">Soluções</a>
+                    <a href="#como-funciona" class="text-gray-700 hover:text-blue-600 font-medium">Como Funciona</a>
+                    <a href="#resultados" class="text-gray-700 hover:text-blue-600 font-medium">Resultados</a>
+                    <a href="#sobre" class="text-gray-700 hover:text-blue-600 font-medium">Sobre</a>
+                    <a href="#blog" class="text-gray-700 hover:text-blue-600 font-medium">Blog</a>
+                    <a href="#contato" class="text-gray-700 hover:text-blue-600 font-medium">Contato</a>
+                </nav>
+                <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium btn-hover">
+                    Falar com Especialista
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gray-900 text-white py-20 overflow-hidden">
+        <!-- Fundo visual melhorado -->
+        <div class="absolute inset-0">
+            <!-- Gradiente base -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-gray-900"></div>
+            
+            <!-- Elementos geométricos flutuantes -->
+            <div class="absolute top-20 left-10 w-32 h-32 bg-blue-500/10 rounded-full blur-xl"></div>
+            <div class="absolute top-40 right-20 w-48 h-48 bg-purple-500/10 rounded-full blur-xl"></div>
+            <div class="absolute bottom-20 left-1/4 w-40 h-40 bg-blue-400/10 rounded-full blur-xl"></div>
+            
+            <!-- Grid pattern sutil -->
+            <div class="absolute inset-0 opacity-5">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="heroGrid" width="50" height="50" patternUnits="userSpaceOnUse">
+                            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="white" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#heroGrid)"/>
+                </svg>
+            </div>
+            
+            <!-- Formas geométricas decorativas -->
+            <div class="absolute top-1/4 right-1/3 opacity-10">
+                <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="60,10 90,50 60,90 30,50" fill="none" stroke="#3b82f6" stroke-width="2"/>
+                    <circle cx="60" cy="60" r="20" fill="none" stroke="#3b82f6" stroke-width="1"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight slide-left">
+                        Sua loja não vende?<br>
+                        <span class="text-blue-300">Nós resolvemos isso.</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-300 leading-relaxed slide-left stagger-delay-2">
+                        Transformamos empresários frustrados em cases de sucesso. Marketing estratégico que gera resultados reais para quem tem produto bom, mas não consegue vender.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 slide-left stagger-delay-3">
+                        <button class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg btn-hover">
+                            Quero Vender Mais Agora
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-slate-800 transition-colors font-semibold btn-hover">
+                            Ver Cases de Sucesso
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <!-- Elementos visuais de fundo do formulário -->
+                    <div class="absolute -inset-4 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-3xl blur-xl"></div>
+                    <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-500/20 rounded-full blur-lg"></div>
+                    <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-purple-500/20 rounded-full blur-lg"></div>
+                    
+                    <!-- Ilustração de crescimento melhorada -->
+                    <div class="absolute -top-6 -right-6 opacity-30">
+                        <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="growthGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M20 130 L40 110 L60 90 L80 60 L100 40 L120 20" stroke="url(#growthGradient)" stroke-width="3" fill="none"/>
+                            <circle cx="120" cy="20" r="4" fill="#3b82f6"/>
+                            <path d="M115 15 L120 10 L125 15 L120 20 Z" fill="#3b82f6"/>
+                            <!-- Pontos de dados -->
+                            <circle cx="40" cy="110" r="2" fill="#3b82f6"/>
+                            <circle cx="60" cy="90" r="2" fill="#3b82f6"/>
+                            <circle cx="80" cy="60" r="2" fill="#3b82f6"/>
+                            <circle cx="100" cy="40" r="2" fill="#3b82f6"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="bg-white/15 backdrop-blur-md rounded-3xl p-8 border border-white/30 slide-right relative z-10 shadow-2xl">
+                        <div class="text-center mb-6">
+                            <div class="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 24L12 20L16 24L24 16L28 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20 16H28V24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="16" cy="8" r="6" stroke="white" stroke-width="2" fill="none"/>
+                                    <path d="M14 8L15 9L18 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Diagnóstico Gratuito</h3>
+                            <p class="text-gray-200">Descubra por que sua loja não vende</p>
+                        </div>
+                        <form class="space-y-4">
+                            <input type="text" placeholder="Seu nome" class="w-full px-4 py-3 rounded-xl bg-white/25 border border-white/40 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm">
+                            <input type="email" placeholder="Seu melhor e-mail" class="w-full px-4 py-3 rounded-xl bg-white/25 border border-white/40 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm">
+                            <input type="tel" placeholder="WhatsApp" class="w-full px-4 py-3 rounded-xl bg-white/25 border border-white/40 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm">
+                            <select class="w-full px-4 py-3 rounded-xl bg-white/25 border border-white/40 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm">
+                                <option value="" class="text-gray-800">Tipo de negócio</option>
+                                <option value="ecommerce" class="text-gray-800">E-commerce</option>
+                                <option value="loja-fisica" class="text-gray-800">Loja Física</option>
+                                <option value="servicos" class="text-gray-800">Serviços</option>
+                                <option value="consultoria" class="text-gray-800">Consultoria</option>
+                            </select>
+                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3 rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-300 font-semibold btn-hover shadow-lg">
+                                Receber Diagnóstico Gratuito
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credibilidade Section -->
+    <section class="py-16 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Empresas que confiam na Escala+</h2>
+                <p class="text-gray-600">Mais de 150 empresas já transformaram seus resultados conosco</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-60">
+                <!-- Logos fictícios de empresas -->
+                <div class="flex justify-center scale-in stagger-delay-1">
+                    <div class="bg-gray-100 px-6 py-4 rounded-lg">
+                        <svg width="80" height="40" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="80" height="40" rx="4" fill="#f3f4f6"/>
+                            <text x="40" y="25" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#374151">TechCorp</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex justify-center scale-in stagger-delay-2">
+                    <div class="bg-gray-100 px-6 py-4 rounded-lg">
+                        <svg width="80" height="40" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="80" height="40" rx="4" fill="#f3f4f6"/>
+                            <text x="40" y="25" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#374151">ModaPlus</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex justify-center scale-in stagger-delay-3">
+                    <div class="bg-gray-100 px-6 py-4 rounded-lg">
+                        <svg width="80" height="40" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="80" height="40" rx="4" fill="#f3f4f6"/>
+                            <text x="40" y="25" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#374151">BeautyShop</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex justify-center scale-in stagger-delay-4">
+                    <div class="bg-gray-100 px-6 py-4 rounded-lg">
+                        <svg width="80" height="40" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="80" height="40" rx="4" fill="#f3f4f6"/>
+                            <text x="40" y="25" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#374151">FitStore</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex justify-center scale-in stagger-delay-5">
+                    <div class="bg-gray-100 px-6 py-4 rounded-lg">
+                        <svg width="80" height="40" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="80" height="40" rx="4" fill="#f3f4f6"/>
+                            <text x="40" y="25" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#374151">HomeDecor</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex justify-center scale-in stagger-delay-6">
+                    <div class="bg-gray-100 px-6 py-4 rounded-lg">
+                        <svg width="80" height="40" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="80" height="40" rx="4" fill="#f3f4f6"/>
+                            <text x="40" y="25" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#374151">PetCare</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-8 space-x-8 fade-in">
+                <div class="flex items-center text-gray-600">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="mr-2">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="font-semibold">Certificado Google Partner</span>
+                </div>
+                <div class="flex items-center text-gray-600">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="mr-2">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold">5 anos de experiência</span>
+                </div>
+                <div class="flex items-center text-gray-600">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="mr-2">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold">Garantia de 30 dias</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Você se identifica com isso?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                    Sabemos exatamente o que você está passando. Estes são os problemas mais comuns dos nossos clientes antes de nos conhecerem:
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg scale-in stagger-delay-1">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="#dc2626" stroke-width="2"/>
+                            <path d="M16 12V20" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16 8V8.01" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 16L20 16" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Produto bom, vendas ruins</h3>
+                    <p class="text-gray-700">Você sabe que tem um produto ou serviço de qualidade, mas as vendas não acontecem como esperado.</p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg scale-in stagger-delay-2">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 2L20 10H28L22 16L24 24L16 20L8 24L10 16L4 10H12L16 2Z" stroke="#dc2626" stroke-width="2" fill="none"/>
+                            <path d="M16 8V16" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 12H20" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M14 14H18" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Dinheiro jogado fora</h3>
+                    <p class="text-gray-700">Já tentou anúncios no Google, Facebook, Instagram e só queimou dinheiro sem resultado.</p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg scale-in stagger-delay-3">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="#dc2626" stroke-width="2"/>
+                            <path d="M16 12V16L20 20" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="16" cy="8" r="1" fill="#dc2626"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Não sabe por onde começar</h3>
+                    <p class="text-gray-700">Marketing parece um bicho de sete cabeças e você não sabe qual estratégia realmente funciona.</p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg scale-in stagger-delay-4">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="12" stroke="#dc2626" stroke-width="2"/>
+                            <path d="M12 16L16 20L20 16" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 8V20" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Sem tempo para aprender</h3>
+                    <p class="text-gray-700">Você precisa cuidar do negócio e não tem tempo para virar especialista em marketing digital.</p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg scale-in stagger-delay-5">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 20L8 16L12 20L20 12L28 20" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 12V8" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M24 12H28" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M6 24L10 28" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M14 24L18 28" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Resultados inconsistentes</h3>
+                    <p class="text-gray-700">Um mês vende bem, no outro despenca. Você não consegue prever nem controlar as vendas.</p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg scale-in stagger-delay-6">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="#dc2626" stroke-width="2"/>
+                            <path d="M10 14L16 20L22 14" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 8V12" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Medo de investir mais</h3>
+                    <p class="text-gray-700">Depois de tantas tentativas frustradas, você tem medo de investir em marketing novamente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona Section -->
+    <section id="como-funciona" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Como funciona nossa metodologia</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Um processo simples e comprovado que transforma sua loja em uma máquina de vendas em apenas 4 etapas
+                </p>
+            </div>
+            <div class="relative">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="relative bg-white p-8 rounded-xl shadow-lg scale-in stagger-delay-1">
+                        <div class="absolute -top-4 left-8 bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+                        <div class="mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4z" stroke="#3b82f6" stroke-width="2"/>
+                                    <path d="M16 8v8l4 4" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Diagnóstico Completo</h3>
+                            <p class="text-gray-600 mb-4">Analisamos seu negócio, concorrência e identificamos os gargalos que impedem suas vendas.</p>
+                            <div class="text-sm text-blue-600 font-semibold">⏱️ 3-5 dias úteis</div>
+                        </div>
+                    </div>
+                    <div class="relative bg-white p-8 rounded-xl shadow-lg scale-in stagger-delay-2">
+                        <div class="absolute -top-4 left-8 bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
+                        <div class="mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 8h24v16H4V8z" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 12h16M8 16h12M8 20h8" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Estratégia Personalizada</h3>
+                            <p class="text-gray-600 mb-4">Criamos um plano de marketing sob medida com funil de vendas otimizado para seu público.</p>
+                            <div class="text-sm text-blue-600 font-semibold">⏱️ 7-10 dias úteis</div>
+                        </div>
+                    </div>
+                    <div class="relative bg-white p-8 rounded-xl shadow-lg scale-in stagger-delay-3">
+                        <div class="absolute -top-4 left-8 bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div>
+                        <div class="mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 4l12 12-12 12L4 16 16 4z" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round"/>
+                                    <path d="M12 16l4 4 4-4-4-4-4 4z" fill="#3b82f6"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Implementação</h3>
+                            <p class="text-gray-600 mb-4">Colocamos tudo em funcionamento: campanhas, automações e sistemas de conversão.</p>
+                            <div class="text-sm text-blue-600 font-semibold">⏱️ 10-15 dias úteis</div>
+                        </div>
+                    </div>
+                    <div class="relative bg-white p-8 rounded-xl shadow-lg scale-in stagger-delay-4">
+                        <div class="absolute -top-4 left-8 bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">4</div>
+                        <div class="mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 20l4-4 4 4 8-8 8 4" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20 12v-8M24 12h8" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Otimização Contínua</h3>
+                            <p class="text-gray-600 mb-4">Monitoramos e otimizamos constantemente para maximizar seus resultados.</p>
+                            <div class="text-sm text-blue-600 font-semibold">⏱️ Processo contínuo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculadora ROI Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Calcule seu potencial de crescimento</h2>
+                <p class="text-xl text-gray-600">
+                    Descubra quanto sua empresa pode faturar com nossa metodologia
+                </p>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 shadow-xl scale-in">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Seus dados atuais</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Faturamento mensal atual</label>
+                                <input type="number" id="currentRevenue" placeholder="Ex: 50000" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Ticket médio</label>
+                                <input type="number" id="averageTicket" placeholder="Ex: 150" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Vendas por mês</label>
+                                <input type="number" id="monthlySales" placeholder="Ex: 333" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <button onclick="calculateROI()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold btn-hover">
+                                Calcular Potencial
+                            </button>
+                        </div>
+                    </div>
+                    <div id="roiResults" class="calculator-result rounded-2xl p-6 text-white" style="display: none;">
+                        <h3 class="text-2xl font-bold mb-6">Seu potencial com a Escala+</h3>
+                        <div class="space-y-4">
+                            <div class="bg-white/20 rounded-lg p-4">
+                                <div class="text-sm opacity-90">Faturamento projetado (6 meses)</div>
+                                <div id="projectedRevenue" class="text-3xl font-bold"></div>
+                            </div>
+                            <div class="bg-white/20 rounded-lg p-4">
+                                <div class="text-sm opacity-90">Aumento estimado</div>
+                                <div id="increasePercentage" class="text-2xl font-bold"></div>
+                            </div>
+                            <div class="bg-white/20 rounded-lg p-4">
+                                <div class="text-sm opacity-90">Vendas adicionais por mês</div>
+                                <div id="additionalSales" class="text-2xl font-bold"></div>
+                            </div>
+                        </div>
+                        <button onclick="openWhatsApp()" class="w-full bg-white text-blue-600 py-3 rounded-lg hover:bg-gray-100 transition-colors font-semibold mt-6 btn-hover">
+                            Quero Esses Resultados!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solucoes" class="py-20 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-6">Como a Escala+ resolve seu problema</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    Nossa metodologia comprovada transforma lojas que não vendem em máquinas de vendas consistentes e previsíveis.
+                </p>
+                <!-- Imagem da equipe -->
+                <div class="flex justify-center mb-8">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=300&fit=crop&auto=format&q=80" alt="Equipe Escala+ trabalhando em estratégias de marketing" class="rounded-2xl shadow-2xl max-w-2xl w-full" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="hidden bg-gray-800 rounded-2xl p-8 max-w-2xl w-full">
+                            <div class="flex items-center justify-center h-48">
+                                <div class="text-center">
+                                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4">
+                                        <circle cx="32" cy="32" r="30" stroke="#3b82f6" stroke-width="2"/>
+                                        <path d="M20 32L28 40L44 24" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <p class="text-gray-300">Nossa equipe especializada em marketing digital</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent rounded-2xl"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <p class="text-sm font-medium">Nossa equipe de especialistas trabalhando para você</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 slide-left stagger-delay-1">
+                    <div class="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M28 16C28 22.6274 22.6274 28 16 28C9.37258 28 4 22.6274 4 16C4 9.37258 9.37258 4 16 4C22.6274 4 28 9.37258 28 16Z" stroke="white" stroke-width="2"/>
+                            <path d="M16 8V16L22 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="16" cy="16" r="2" fill="white"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Diagnóstico Profundo</h3>
+                    <p class="text-gray-300 mb-6">Analisamos seu negócio, concorrência, público-alvo e identificamos exatamente onde estão os gargalos que impedem suas vendas.</p>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Auditoria completa do negócio</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Análise da concorrência</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Mapeamento do público-alvo</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 fade-in stagger-delay-2">
+                    <div class="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 8H28V24H4V8Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 12H24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 16H20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 20H16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="24" cy="18" r="2" fill="white"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Estratégia Personalizada</h3>
+                    <p class="text-gray-300 mb-6">Criamos um plano de marketing sob medida para seu negócio, com foco em resultados rápidos e sustentáveis.</p>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Funil de vendas otimizado</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Campanhas direcionadas</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Automações inteligentes</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 slide-right stagger-delay-3">
+                    <div class="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 4L28 16L16 28L4 16L16 4Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M12 16L16 20L20 16L16 12L12 16Z" fill="white"/>
+                            <path d="M8 24L12 28" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M20 28L24 24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Execução e Otimização</h3>
+                    <p class="text-gray-300 mb-6">Implementamos tudo para você e otimizamos constantemente para garantir o melhor retorno sobre investimento.</p>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Implementação completa</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Monitoramento 24/7</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Relatórios detalhados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="resultados" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Resultados que falam por si</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                    Veja como transformamos negócios que não vendiam em cases de sucesso
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="text-center scale-in stagger-delay-1">
+                    <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 20L8 16L12 20L20 12L28 20" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 12V8" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M24 12H28" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-blue-600 mb-2">+300%</div>
+                    <p class="text-gray-600">Aumento médio em vendas</p>
+                </div>
+                <div class="text-center scale-in stagger-delay-2">
+                    <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 8H28V24H4V8Z" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 12H12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16 12H20" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 16H12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16 16H20" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 20H12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16 20H20" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-blue-600 mb-2">150+</div>
+                    <p class="text-gray-600">Empresas transformadas</p>
+                </div>
+                <div class="text-center scale-in stagger-delay-3">
+                    <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="12" stroke="#3b82f6" stroke-width="2"/>
+                            <path d="M12 16L16 20L20 16" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 8V12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <text x="16" y="18" text-anchor="middle" fill="#3b82f6" font-size="8" font-weight="bold">R$</text>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-blue-600 mb-2">R$ 50M+</div>
+                    <p class="text-gray-600">Gerados para clientes</p>
+                </div>
+                <div class="text-center scale-in stagger-delay-4">
+                    <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 2L20 10H28L22 16L24 24L16 20L8 24L10 16L4 10H12L16 2Z" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                            <circle cx="16" cy="16" r="4" fill="#3b82f6"/>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-blue-600 mb-2">98%</div>
+                    <p class="text-gray-600">Taxa de satisfação</p>
+                </div>
+            </div>
+            
+            <!-- Depoimentos em Vídeo -->
+            <div class="mb-16">
+                <h3 class="text-3xl font-bold text-center text-gray-900 mb-12 fade-in">Depoimentos em Vídeo</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg scale-in stagger-delay-1">
+                        <div class="relative bg-gray-800 h-48 flex items-center justify-center">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 transition-colors">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <div class="absolute bottom-2 left-2 text-white text-sm">João Martins - Loja de Roupas</div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-700 text-sm">"Em 6 meses saí de R$ 15mil para R$ 65mil por mês..."</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg scale-in stagger-delay-2">
+                        <div class="relative bg-gray-800 h-48 flex items-center justify-center">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 transition-colors">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <div class="absolute bottom-2 left-2 text-white text-sm">Ana Silva - E-commerce</div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-700 text-sm">"Estava quase fechando a loja. Hoje faturo R$ 120mil/mês..."</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg scale-in stagger-delay-3">
+                        <div class="relative bg-gray-800 h-48 flex items-center justify-center">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 transition-colors">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <div class="absolute bottom-2 left-2 text-white text-sm">Roberto Costa - Consultoria</div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-700 text-sm">"Minha agenda está sempre cheia de clientes qualificados..."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Depoimentos Textuais -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl fade-in stagger-delay-1">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80" alt="João Martins" class="w-12 h-12 rounded-full object-cover mr-4" onerror="this.src=''; this.alt='Foto não disponível'; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-4" style="display: none;">JM</div>
+                        <div>
+                            <h4 class="font-semibold">João Martins</h4>
+                            <p class="text-gray-600 text-sm">Loja de Roupas</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex text-yellow-400 mb-2">
+                            <span>⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="text-gray-700 mb-4">"Em 6 meses saí de R$ 15mil para R$ 65mil por mês. A Escala+ não só aumentou minhas vendas, mas me ensinou a ter um negócio previsível. O investimento se pagou em menos de 2 meses!"</p>
+                    </div>
+                    <div class="text-green-600 font-semibold">+333% em vendas</div>
+                    <div class="text-sm text-gray-500 mt-2">Resultado em 6 meses</div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl fade-in stagger-delay-2">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face&auto=format&q=80" alt="Ana Silva" class="w-12 h-12 rounded-full object-cover mr-4" onerror="this.src=''; this.alt='Foto não disponível'; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-4" style="display: none;">AS</div>
+                        <div>
+                            <h4 class="font-semibold">Ana Silva</h4>
+                            <p class="text-gray-600 text-sm">E-commerce Cosméticos</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex text-yellow-400 mb-2">
+                            <span>⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="text-gray-700 mb-4">"Estava quase fechando a loja. Hoje faturo R$ 120mil/mês e tenho uma equipe de 8 pessoas. Melhor investimento que já fiz! A metodologia deles é simplesmente incrível."</p>
+                    </div>
+                    <div class="text-green-600 font-semibold">+800% em faturamento</div>
+                    <div class="text-sm text-gray-500 mt-2">Resultado em 8 meses</div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl fade-in stagger-delay-3">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80" alt="Roberto Costa" class="w-12 h-12 rounded-full object-cover mr-4" onerror="this.src=''; this.alt='Foto não disponível'; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-4" style="display: none;">RC</div>
+                        <div>
+                            <h4 class="font-semibold">Roberto Costa</h4>
+                            <p class="text-gray-600 text-sm">Consultoria Empresarial</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex text-yellow-400 mb-2">
+                            <span>⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="text-gray-700 mb-4">"Consegui estruturar meu funil de vendas e agora tenho clientes chegando automaticamente. Minha agenda está sempre cheia e posso escolher os melhores projetos."</p>
+                    </div>
+                    <div class="text-green-600 font-semibold">+250% em leads qualificados</div>
+                    <div class="text-sm text-gray-500 mt-2">Resultado em 4 meses</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Section -->
+    <section id="sobre" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Conheça a Escala+</h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Somos uma agência especializada em transformar empresas que têm produtos bons, mas não conseguem vender, em verdadeiras máquinas de vendas.
+                    </p>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">5 anos de experiência</h3>
+                                <p class="text-gray-600">Mais de 150 empresas transformadas com nossa metodologia comprovada.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="9" cy="7" r="4" stroke="#3b82f6" stroke-width="2"/>
+                                    <path d="M23 21V19C23 18.1645 22.7155 17.3541 22.2094 16.7018C21.7033 16.0494 20.9983 15.5901 20.2 15.4" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Equipe especializada</h3>
+                                <p class="text-gray-600">Profissionais certificados em Google Ads, Facebook Ads e estratégias de conversão.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12L11 14L15 10" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#3b82f6" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Resultados garantidos</h3>
+                                <p class="text-gray-600">98% de taxa de satisfação e garantia de 30 dias ou seu dinheiro de volta.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scale-in">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Nossa Missão</h3>
+                        <p class="text-gray-600 text-center mb-8">
+                            "Transformar empresários frustrados em cases de sucesso, proporcionando crescimento sustentável e previsível através de estratégias de marketing digital comprovadas."
+                        </p>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-3xl font-bold text-blue-600">150+</div>
+                                <div class="text-sm text-gray-600">Clientes</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-blue-600">R$ 50M+</div>
+                                <div class="text-sm text-gray-600">Gerados</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-blue-600">98%</div>
+                                <div class="text-sm text-gray-600">Satisfação</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparativo Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Por que escolher a Escala+?</h2>
+                <p class="text-xl text-gray-600">
+                    Veja como nos diferenciamos da concorrência
+                </p>
+            </div>
+            <div class="bg-gray-50 rounded-3xl p-8 scale-in">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-4 px-6 font-semibold text-gray-900">Características</th>
+                                <th class="text-center py-4 px-6 font-semibold text-blue-600">Escala+</th>
+                                <th class="text-center py-4 px-6 font-semibold text-gray-600">Outras Agências</th>
+                                <th class="text-center py-4 px-6 font-semibold text-gray-600">Freelancers</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-4 px-6 font-medium text-gray-900">Diagnóstico completo</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-yellow-500 text-xl">~</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-red-500 text-xl">✗</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-4 px-6 font-medium text-gray-900">Estratégia personalizada</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-yellow-500 text-xl">~</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-yellow-500 text-xl">~</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-medium text-gray-900">Implementação completa</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-yellow-500 text-xl">~</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-4 px-6 font-medium text-gray-900">Monitoramento 24/7</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-yellow-500 text-xl">~</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-red-500 text-xl">✗</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-medium text-gray-900">Garantia de resultados</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-red-500 text-xl">✗</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-red-500 text-xl">✗</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-4 px-6 font-medium text-gray-900">Suporte dedicado</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-yellow-500 text-xl">~</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-red-500 text-xl">✗</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-medium text-gray-900">Preço justo</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-red-500 text-xl">✗</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="text-green-500 text-xl">✓</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-8">
+                    <button onclick="openWhatsApp()" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg btn-hover">
+                        Escolher a Escala+
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Perguntas Frequentes</h2>
+                <p class="text-xl text-gray-600">
+                    Tire suas dúvidas sobre nossos serviços
+                </p>
+            </div>
+            <div class="space-y-4">
+                <div class="faq-item bg-white rounded-lg shadow-sm scale-in stagger-delay-1">
+                    <button onclick="toggleFAQ(0)" class="w-full text-left p-6 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Quanto tempo leva para ver resultados?</h3>
+                            <svg class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6">
+                        <p class="text-gray-600">Nossos clientes começam a ver os primeiros resultados entre 30 a 60 dias. Resultados mais significativos aparecem entre 3 a 6 meses, com crescimento médio de 300% nas vendas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-white rounded-lg shadow-sm scale-in stagger-delay-2">
+                    <button onclick="toggleFAQ(1)" class="w-full text-left p-6 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Qual o investimento necessário?</h3>
+                            <svg class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6">
+                        <p class="text-gray-600">O investimento varia conforme o tamanho e necessidades do seu negócio. Oferecemos planos a partir de R$ 2.500/mês. Agende uma conversa gratuita para receber uma proposta personalizada.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-white rounded-lg shadow-sm scale-in stagger-delay-3">
+                    <button onclick="toggleFAQ(2)" class="w-full text-left p-6 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Vocês trabalham com que tipo de empresa?</h3>
+                            <svg class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6">
+                        <p class="text-gray-600">Trabalhamos com e-commerces, lojas físicas, prestadores de serviços e consultores. O importante é ter um produto ou serviço de qualidade e querer crescer de forma sustentável.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-white rounded-lg shadow-sm scale-in stagger-delay-4">
+                    <button onclick="toggleFAQ(3)" class="w-full text-left p-6 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Existe garantia?</h3>
+                            <svg class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6">
+                        <p class="text-gray-600">Sim! Oferecemos garantia de 30 dias. Se não ficar satisfeito com nosso trabalho, devolvemos 100% do valor investido, sem perguntas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item bg-white rounded-lg shadow-sm scale-in stagger-delay-5">
+                    <button onclick="toggleFAQ(4)" class="w-full text-left p-6 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Como funciona o acompanhamento?</h3>
+                            <svg class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6">
+                        <p class="text-gray-600">Você terá um gestor dedicado, relatórios semanais detalhados, reuniões mensais de resultados e acesso 24/7 ao nosso suporte via WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Conteúdos Exclusivos</h2>
+                <p class="text-xl text-gray-600">
+                    Aprenda estratégias de marketing que realmente funcionam
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg scale-in stagger-delay-1">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 8L48 24L32 40L16 24L32 8Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M24 24L32 32L40 24L32 16L24 24Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 font-semibold mb-2">ESTRATÉGIA</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">5 Erros que Matam suas Vendas Online</h3>
+                        <p class="text-gray-600 mb-4">Descubra os principais erros que impedem seu e-commerce de vender e como corrigi-los rapidamente.</p>
+                        <a href="#" class="text-blue-600 font-semibold hover:text-blue-700">Ler artigo →</a>
+                    </div>
+                </article>
+                
+                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg scale-in stagger-delay-2">
+                    <div class="h-48 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 40L16 32L24 40L40 24L56 40" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M40 24V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M48 24H56" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-sm text-green-600 font-semibold mb-2">CONVERSÃO</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Como Aumentar sua Taxa de Conversão em 200%</h3>
+                        <p class="text-gray-600 mb-4">Técnicas comprovadas para transformar mais visitantes em clientes pagantes.</p>
+                        <a href="#" class="text-blue-600 font-semibold hover:text-blue-700">Ler artigo →</a>
+                    </div>
+                </article>
+                
+                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg scale-in stagger-delay-3">
+                    <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="32" cy="32" r="24" stroke="white" stroke-width="3"/>
+                            <path d="M32 16V32L44 44" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-sm text-purple-600 font-semibold mb-2">AUTOMAÇÃO</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Funil de Vendas: O Guia Completo</h3>
+                        <p class="text-gray-600 mb-4">Aprenda a criar um funil de vendas que converte automaticamente, 24 horas por dia.</p>
+                        <a href="#" class="text-blue-600 font-semibold hover:text-blue-700">Ler artigo →</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-blue-600 text-white relative overflow-hidden">
+        <!-- Ilustração de fundo -->
+        <div class="absolute inset-0 opacity-10">
+            <svg width="100%" height="100%" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)"/>
+                <circle cx="150" cy="100" r="60" fill="none" stroke="white" stroke-width="2"/>
+                <circle cx="650" cy="300" r="80" fill="none" stroke="white" stroke-width="2"/>
+                <path d="M100 200 Q400 100 700 200" fill="none" stroke="white" stroke-width="3"/>
+                <path d="M200 350 L250 300 L300 350 L350 250 L400 300" fill="none" stroke="white" stroke-width="2"/>
+            </svg>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="mx-auto w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 fade-in">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 4L36 20L20 36L4 20L20 4Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M15 20L20 25L25 20L20 15L15 20Z" fill="white"/>
+                    <path d="M8 32L15 39" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M25 39L32 32" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h2 class="text-4xl font-bold mb-6 fade-in">Pronto para transformar sua loja em uma máquina de vendas?</h2>
+            <p class="text-xl mb-8 text-blue-100 fade-in stagger-delay-1">
+                Agende uma conversa gratuita com nossos especialistas e descubra como podemos multiplicar suas vendas em até 90 dias.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center scale-in stagger-delay-2">
+                <button class="bg-white text-blue-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-lg btn-hover">
+                    Quero Minha Consultoria Gratuita
+                </button>
+                <button onclick="openWhatsApp()" class="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-semibold btn-hover">
+                    Falar no WhatsApp
+                </button>
+            </div>
+            <p class="text-sm text-blue-200 mt-4 fade-in stagger-delay-3">✓ Sem compromisso ✓ Consultoria 100% gratuita ✓ Resultados garantidos</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="mb-4">
+                        <svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="120" height="40" rx="8" fill="#1e293b"/>
+                            <text x="15" y="26" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="white">Escala</text>
+                            <circle cx="95" cy="20" r="12" fill="#3b82f6"/>
+                            <text x="90" y="26" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="white">+</text>
+                        </svg>
+                    </div>
+                    <p class="text-gray-400 mb-4">Transformamos empresários frustrados em cases de sucesso através de marketing estratégico que gera resultados reais.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Soluções</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Marketing Digital</a></li>
+                        <li><a href="#" class="hover:text-white">Funil de Vendas</a></li>
+                        <li><a href="#" class="hover:text-white">Automação</a></li>
+                        <li><a href="#" class="hover:text-white">Consultoria</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Empresa</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Sobre Nós</a></li>
+                        <li><a href="#" class="hover:text-white">Cases de Sucesso</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contato</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>📧 contato@escalamais.com.br</li>
+                        <li>📱 (11) 99999-9999</li>
+                        <li>📍 São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Escala+. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Obrigado pelo interesse! Em breve nossa equipe entrará em contato com você.');
+        });
+
+        // Button click handlers
+        document.querySelectorAll('button').forEach(button => {
+            if (!button.type || button.type !== 'submit') {
+                button.addEventListener('click', function() {
+                    if (this.textContent.includes('WhatsApp') || this.onclick) {
+                        return; // Skip if it's WhatsApp button or has onclick
+                    }
+                    alert('Redirecionando para agendamento de consultoria gratuita...');
+                });
+            }
+        });
+
+        // WhatsApp function
+        function openWhatsApp() {
+            window.open('https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre os serviços da Escala+ e agendar minha consultoria gratuita.', '_blank');
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(index) {
+            const faqItems = document.querySelectorAll('.faq-item');
+            const content = faqItems[index].querySelector('.faq-content');
+            const icon = faqItems[index].querySelector('svg');
+            
+            // Close all other FAQs
+            faqItems.forEach((item, i) => {
+                if (i !== index) {
+                    item.querySelector('.faq-content').classList.remove('open');
+                    item.querySelector('svg').style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            // Toggle current FAQ
+            content.classList.toggle('open');
+            icon.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // ROI Calculator
+        function calculateROI() {
+            const currentRevenue = parseFloat(document.getElementById('currentRevenue').value) || 0;
+            const averageTicket = parseFloat(document.getElementById('averageTicket').value) || 0;
+            const monthlySales = parseFloat(document.getElementById('monthlySales').value) || 0;
+            
+            if (currentRevenue === 0) {
+                alert('Por favor, preencha pelo menos o faturamento mensal atual.');
+                return;
+            }
+            
+            // Cálculos baseados na média de crescimento de 300%
+            const projectedRevenue = currentRevenue * 4; // 300% de aumento = 4x o valor atual
+            const increaseAmount = projectedRevenue - currentRevenue;
+            const increasePercentage = 300;
+            const additionalSales = Math.round(increaseAmount / (averageTicket || (currentRevenue / monthlySales) || 100));
+            
+            // Mostrar resultados
+            document.getElementById('projectedRevenue').textContent = `R$ ${projectedRevenue.toLocaleString('pt-BR')}`;
+            document.getElementById('increasePercentage').textContent = `+${increasePercentage}%`;
+            document.getElementById('additionalSales').textContent = `${additionalSales} vendas`;
+            
+            document.getElementById('roiResults').style.display = 'block';
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in, .slide-left, .slide-right, .scale-in');
+            animatedElements.forEach(el => observer.observe(el));
+            
+            // Trigger hero animations immediately
+            const heroElements = document.querySelectorAll('.slide-left, .slide-right');
+            setTimeout(() => {
+                heroElements.forEach(el => el.classList.add('visible'));
+            }, 300);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97265f7a14b6b6e6',t:'MTc1NTczOTkwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
